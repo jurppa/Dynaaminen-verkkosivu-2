@@ -1,11 +1,11 @@
-import './App.css';
-import Country from './components/Country';
+import "./App.css";
+import Country from "./components/Country";
 const App = () => {
   return (
     <section>
-    <Country />
+      <Country />
     </section>
   );
-}
+};
 
 export default App;
