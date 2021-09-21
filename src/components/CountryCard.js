@@ -1,22 +1,26 @@
 import { useState } from "react";
 
-const CountryCard = ({ country, points }) => {
+const CountryCard = ({ country, points, setPoints }) => {
   const [countryToGuess] = useState(country);
   const [guess, setGuess] = useState(null);
 
   const [showFullInfo, setShowFullInfo] = useState(false);
   const [notification, setNotification] = useState(null);
-
+  const [hint, setHint] = useState(null);
   const handleGuessByName = (e) => {
     e.preventDefault();
     if (guess === countryToGuess.name) {
-      points++;
+      setPoints(points + 1);
       setNotification("Correct!");
       setShowFullInfo(true);
     } else {
-      setNotification("Not right");
+      setNotification("Not quite right");
       setShowFullInfo(true);
     }
+  };
+  const handleGiveHint = (e) => {
+    e.preventDefault();
+    setHint(countryToGuess.name.substring(0, 3));
   };
   if (!showFullInfo) {
     return (
@@ -29,6 +33,12 @@ const CountryCard = ({ country, points }) => {
               setGuess(event.target.value);
             }}
           />
+
+          {hint === null ? (
+            <button onClick={handleGiveHint}>Give a hint</button>
+          ) : (
+            ""
+          )}
           <button onClick={handleGuessByName}>Guess</button>
         </form>
         <img
@@ -40,13 +50,17 @@ const CountryCard = ({ country, points }) => {
             marginTop: "17px",
             marginBottom: "17px",
           }}
-        ></img>
+        ></img>{" "}
+        <br />
+        {hint !== null ? "Three first letters of countrys name: " + hint : ""}
       </div>
     );
   } else {
     return (
-      <div>
-        <h1>{notification}</h1>
+      <div
+        style={{ backgroundColor: "snow", padding: "4px", borderRadius: "4px" }}
+      >
+        <h1 style={{ textDecoration: "underline" }}>{notification}</h1>
         <h2>Some info about the country: </h2>
 
         <h3>{country.name}</h3>
